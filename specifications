@@ -1,0 +1,43 @@
+- get item from api 
+    - api get: https://api.beta.slangapp.com/recruitment/spelling
+    - reponse : {
+                    "id":276089,
+                    "audio-url":"https://cdn.slangapp.com/sounds/b983dfac78e8536e7b74e231
+                    26c0acd95ccf9e3c/normalized.mp3",
+                    "letter-pool":["o","c","i","o","d","c","u","t","n","n"]
+                }
+- play item audio 
+- drag and drop letters
+- check term spelling sending a string
+    - api post: https://api.beta.slangapp.com/recruitment/spelling
+    - body: id=276089&answer=conduit
+    - response: {"correct":false,"correct-answer":"conduction"}
+- give feedback to user
+    - correct: check
+    - incorrect: inteligently display the difference 
+- unlimited items generated at every api call
+- overall ranking
+- implement tracking
+    - mocked events
+- SEO strategy
+    - favicon
+    - open graphs
+        - cover
+    - h1
+    - title & description
+    - alt imagem
+    - website
+    - organization
+    - index/follow
+    - canonical
+- Sitemap
+- Responsive
+- Deploy live
+- Lighhouse 
+
+Technologies:
+- React
+- Typescript
+- Recoil
+- async/await
+- styled components
