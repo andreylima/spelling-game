@@ -1,0 +1,145 @@
+{
+    "fontFamilies": {
+      "Slang": {
+        "value": "Roboto Mono",
+        "type": "fontFamilies"
+      }
+    },
+    "fontWeight": {
+      "Light": {
+        "value": "300",
+        "type": "fontWeights"
+      },
+      "Regular": {
+        "value": "400",
+        "type": "fontWeights"
+      },
+      "Medium": {
+        "value": "500",
+        "type": "fontWeights"
+      },
+      "Bold": {
+        "value": "600",
+        "type": "fontWeights"
+      },
+      "Black": {
+        "value": "700",
+        "type": "fontWeights"
+      }
+    },
+    "brand": {
+      "PRIMARY": {
+        "color_1": {
+          "value": "#0577d6",
+          "type": "color"
+        }
+    }
+  },
+    "secondary": {
+      "color_1": {
+        "value": "#c2e3ff",
+        "type": "color"
+      },
+      "color_2": {
+        "value": "#e4e6e8",
+        "type": "color"
+      },
+      "color_3": {
+        "value": "#f9fafb",
+        "type": "color"
+      }
+    },
+    "contrast": {
+      "BASE": {
+        "dark": {
+          "value": "#000000",
+          "type": "color"
+        },
+        "light": {
+          "value": "#FFFFFF",
+          "type": "color"
+        }
+      }
+    },
+    "border": {
+      "XXS": {
+        "value": "4",
+        "type": "borderRadius"
+      },
+      "XS": {
+        "value": "6",
+        "type": "borderRadius"
+      },
+      "SM": {
+        "value": "12",
+        "type": "borderRadius"
+      },
+      "thin": {
+        "value": "1",
+        "type": "borderWidth"
+      },
+      "medium": {
+        "value": "2",
+        "type": "borderWidth"
+      },
+      "thick": {
+        "value": "3",
+        "type": "borderWidth"
+      },
+      "circular": {
+        "value": "50%",
+        "type": "borderRadius"
+      },
+      "none": {
+        "value": "0",
+        "type": "borderRadius"
+      },
+      "MD": {
+        "value": "16",
+        "type": "borderRadius"
+      },
+      "LG": {
+        "value": "24",
+        "type": "borderRadius"
+      }
+    }, 
+    "fontSize": {
+      "XXXS": {
+        "value": "12",
+        "type": "fontSizes"
+      },
+      "XXS": {
+        "value": "14",
+        "type": "fontSizes"
+      },
+      "XS": {
+        "value": "16",
+        "type": "fontSizes"
+      },
+      "SM": {
+        "value": "18",
+        "type": "fontSizes"
+      },
+      "MD": {
+        "value": "24",
+        "type": "fontSizes"
+      },
+      "LG": {
+        "value": "32",
+        "type": "fontSizes"
+      },
+      "XL": {
+        "value": "40",
+        "type": "fontSizes"
+      },
+      "XXL": {
+        "value": "48",
+        "type": "fontSizes"
+      },
+      "XXXL": {
+        "value": "64",
+        "type": "fontSizes"
+      }
+    }
+
+  }

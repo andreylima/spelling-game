@@ -30,14 +30,17 @@
     - organization
     - index/follow
     - canonical
-- Sitemap
-- Responsive
-- Deploy live - codesandbox
-- Lighhouse 
+    - Sitemap
+    - Responsive
+    - Deploy live - codesandbox
+    - Lighhouse 
 
 Technologies:
-- React
+- React 
 - Typescript
 - Recoil
 - async/await
 - styled components
+- prettier
+- eslint
+- useSound
