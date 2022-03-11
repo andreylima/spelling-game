@@ -9,6 +9,11 @@ import theme from './styles/theme'
 import { Letters } from "./molecules/Letters"
 import { Word } from "./molecules/Word"
 
+export interface letter {
+  id : string
+  content : string
+}
+
 function App() {
   const [repos, setRepos] = useRecoilState(wordState)
   const  [letters, updateLetters] = useState([])
@@ -19,7 +24,11 @@ function App() {
       const resp = await fetch(url)
       const body = await resp.json()
       setRepos(body)
-      updateLetters(body["letter-pool"])
+      const letterObj = body["letter-pool"].map((letter : [],index : number) => ({
+        id: `item-${index}`,
+        content: letter
+      }))
+      updateLetters(letterObj)
     }
     getRepos()
   }, [])
@@ -27,10 +36,10 @@ function App() {
   function onDragEnd(result : any) {
     if (!result.destination) return
     const lettersArray = Array.from(letters)
-    const [wordArray] = Array()
-    if (result.source.droppableId == "letters") {
-      const [reorderedItem] = lettersArray.splice(result.source.index, 1)
-      wordArray.splice(result.destination.index, 0, reorderedItem)
+    const wordArray = Array.from(word)
+    if (result.source.droppableId != result.destination.droppableId) {
+      const [removed] = lettersArray.splice(result.source.index, 1)
+      wordArray.splice(result.destination.index, 0, removed)
       updateLetters(lettersArray)
       updateWord(wordArray)
     }
@@ -41,8 +50,8 @@ function App() {
         <GlobalStyle />
         <AudioButton url={repos['audio-url']}/>
         <DragDropContext onDragEnd={onDragEnd}>
-          <Letters letters={letters}/>
           <Word word={word}/>
+          <Letters letters={letters}/>
         </DragDropContext>
       </ThemeProvider>
   ) : (

@@ -9,24 +9,21 @@ export function Letters(props : LettersData) {
     
     return (
       <LettersCss>
-        <Droppable droppableId="letters">
-        {(provided) => (
-          <>
-            <ul className="letters" {...provided.droppableProps} ref={provided.innerRef}>
-              {props.letters.map((letter : string, index : number) => (
-                <Draggable draggableId={letter} index={index} key={index}>
-                  {(provided) => { 
+        <Droppable droppableId="letters" direction='horizontal'>
+        {(provided, snapshot) => (
+            <ul className={`headerPlaceholder ${snapshot.isDraggingOver ? 'isDraggingOver' : 'white'}`} {...provided.droppableProps} ref={provided.innerRef}>
+              {props.letters.map((letter : any, index : number) => (
+                <Draggable draggableId={letter.id} index={index} key={letter.id}>
+                  {(provided,snapshot) => { 
                     return (
-                    <li {...provided.draggableProps} {...provided.dragHandleProps} ref={provided.innerRef}>
-                      {letter}
+                      <li {...provided.draggableProps} {...provided.dragHandleProps} ref={provided.innerRef} className={snapshot.isDragging ? 'isDragging' : 'white'}>
+                      {letter.content}
                     </li>
                     )}}
                 </Draggable>
               ))}
               {provided.placeholder}
             </ul>
-            
-            </>
           )}
         </Droppable>
         </LettersCss>
