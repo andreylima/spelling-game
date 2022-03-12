@@ -1,13 +1,17 @@
 import { useEffect, useState } from "react"
 import { useRecoilState } from "recoil"
-import { AudioButton } from "./atoms/AudioButton"
 import { wordState } from "./recoilAtom/word"
-import { DragDropContext, Draggable, DraggableProvided, Droppable } from "react-beautiful-dnd"
+import { DragDropContext } from "react-beautiful-dnd"
 import { ThemeProvider } from 'styled-components'
 import GlobalStyle from './styles/global'
 import theme from './styles/theme'
 import { Letters } from "./molecules/Letters"
-import { Word } from "./molecules/Word"
+import { WordBox } from "./organisms/WordBox"
+import { ButtonCss } from "./styles/atoms/Button-css"
+import { LinkIcon } from "./atoms/LinkIcon"
+import JumpIcon from './assets/svg/JumpIcon.svg'
+import { letterState } from "./recoilAtom/letters"
+
 
 export interface letter {
   id : string
@@ -16,19 +20,23 @@ export interface letter {
 
 function App() {
   const [repos, setRepos] = useRecoilState(wordState)
-  const  [letters, updateLetters] = useState([])
+  const  [letters, updateLetters] = useRecoilState(letterState)
   const [word, updateWord] = useState([])
+  const [count, setCount] = useState(0)
+  const [notice, setNotice ] = useState("Loading new word")
   useEffect(() => {
     const getRepos = async () => {
       const url = "https://api.beta.slangapp.com/recruitment/spelling"
       const resp = await fetch(url)
-      const body = await resp.json()
-      setRepos(body)
-      const letterObj = body["letter-pool"].map((letter : [],index : number) => ({
+      let body = await resp.json()
+      body["letter-pool"] = body["letter-pool"].map((letter : [],index : number) => ({
         id: `item-${index}`,
         content: letter
       }))
-      updateLetters(letterObj)
+      console.log(body["letter-pool"])
+      setRepos(body)
+      updateLetters(body["letter-pool"])
+      setNotice("Click above to play")
     }
     getRepos()
   }, [])
@@ -45,17 +53,42 @@ function App() {
     }
   }
 
+  function jump(){
+    setCount(count+1)
+  }
+
   return repos.id ? (
     <ThemeProvider theme={theme}>
         <GlobalStyle />
-        <AudioButton url={repos['audio-url']}/>
-        <DragDropContext onDragEnd={onDragEnd}>
-          <Word word={word}/>
-          <Letters letters={letters}/>
-        </DragDropContext>
+        <div className="main">
+        <h1>Spelling Game</h1>
+          <DragDropContext onDragEnd={onDragEnd}>
+            <WordBox
+              audioUrl={repos["audio-url"]}
+              word={word}
+              notice={notice}/>
+            <Letters letters={letters}/>
+            <ButtonCss>
+              <button>CHECK</button>
+            </ButtonCss>
+            <LinkIcon
+            side="right"
+            onClick={jump}>
+              <img src={JumpIcon}/>
+            </LinkIcon>
+          </DragDropContext>
+        </div>
       </ThemeProvider>
   ) : (
-    <span>No repos found</span>
+    <ThemeProvider theme={theme}>
+      <GlobalStyle />
+      <div className="main">
+        <h1>Spelling Game</h1>
+        <WordBox
+        notice={notice}
+        />
+      </div>
+    </ThemeProvider>
   );
 }
 

@@ -6,7 +6,6 @@ interface LettersData {
 }
 
 export function Letters(props : LettersData) {
-    
     return (
       <LettersCss>
         <Droppable droppableId="letters" direction='horizontal'>

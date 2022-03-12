@@ -6,7 +6,6 @@ interface WordData {
 }
 
 export function Word(props : WordData) {
-  console.log(props.word)
   return (
     <WordCss>
       <Droppable droppableId="word" direction='horizontal'>

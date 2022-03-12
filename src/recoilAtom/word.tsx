@@ -10,3 +10,5 @@ export const wordState = atom({
     'audio-url' : string
     'letter-pool': Array<string> 
   }
+
+  

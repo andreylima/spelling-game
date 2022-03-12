@@ -1,7 +1,7 @@
 {
     "fontFamilies": {
       "Slang": {
-        "value": "Roboto Mono",
+        "value": "Fredoka",
         "type": "fontFamilies"
       }
     },
@@ -36,8 +36,12 @@
     }
   },
     "secondary": {
-      "color_1": {
+      "lightBlue": {
         "value": "#c2e3ff",
+        "type": "color"
+      },
+      "darkBlue": {
+        "value": "#055ea8",
         "type": "color"
       },
       "color_2": {
@@ -101,6 +105,10 @@
       "LG": {
         "value": "24",
         "type": "borderRadius"
+      },
+      "LLG": {
+        "value": "100",
+        "type": "borderRadius"
       }
     }, 
     "fontSize": {
@@ -121,7 +129,7 @@
         "type": "fontSizes"
       },
       "MD": {
-        "value": "24",
+        "value": "20",
         "type": "fontSizes"
       },
       "LG": {
@@ -139,6 +147,12 @@
       "XXXL": {
         "value": "64",
         "type": "fontSizes"
+      }
+    },
+    "transitions": {
+      "2" : {
+        "value" : "all .2s",
+        "type" : "transitions"
       }
     }
 

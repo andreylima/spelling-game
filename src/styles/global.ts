@@ -45,5 +45,14 @@ body {
 ol, ul {
   list-style: none;
 }
-
+.main
+{
+  padding-top: 30px;
+}
+h1 
+{
+  font-size: 64px;
+  text-align: center;
+  margin-bottom: 33px;
+}
 `
