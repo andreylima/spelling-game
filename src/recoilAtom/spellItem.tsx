@@ -1,11 +1,11 @@
 import { atom } from "recoil";
 
-export const wordState = atom({
-    key: "word",
-    default: {} as word
+export const spellItemState = atom({
+    key: "spellItem",
+    default: {} as spellItem
   })
   
-  export interface word  {
+  export interface spellItem  {
     id : string
     'audio-url' : string
     'letter-pool': Array<string> 

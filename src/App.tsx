@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { useRecoilState } from "recoil"
-import { wordState } from "./recoilAtom/word"
+import { spellItemState } from "./recoilAtom/spellItem"
 import { DragDropContext } from "react-beautiful-dnd"
 import { ThemeProvider } from 'styled-components'
 import GlobalStyle from './styles/global'
@@ -11,6 +11,7 @@ import { ButtonCss } from "./styles/atoms/Button-css"
 import { LinkIcon } from "./atoms/LinkIcon"
 import JumpIcon from './assets/svg/JumpIcon.svg'
 import { letterState } from "./recoilAtom/letters"
+import { wordState } from "./recoilAtom/wordState"
 
 
 export interface letter {
@@ -19,13 +20,13 @@ export interface letter {
 }
 
 function App() {
-  const [repos, setRepos] = useRecoilState(wordState)
+  const [spellingItem, setspellingItem] = useRecoilState(spellItemState)
   const  [letters, updateLetters] = useRecoilState(letterState)
-  const [word, updateWord] = useState([])
+  const [word, updateWord] = useRecoilState(wordState)
   const [count, setCount] = useState(0)
   const [notice, setNotice ] = useState("Loading new word")
   useEffect(() => {
-    const getRepos = async () => {
+    const getSpellItem = async () => {
       const url = "https://api.beta.slangapp.com/recruitment/spelling"
       const resp = await fetch(url)
       let body = await resp.json()
@@ -33,23 +34,36 @@ function App() {
         id: `item-${index}`,
         content: letter
       }))
-      console.log(body["letter-pool"])
-      setRepos(body)
+      setspellingItem(body)
       updateLetters(body["letter-pool"])
       setNotice("Click above to play")
     }
-    getRepos()
+    getSpellItem()
   }, [])
 
   function onDragEnd(result : any) {
     if (!result.destination) return
     const lettersArray = Array.from(letters)
     const wordArray = Array.from(word)
-    if (result.source.droppableId != result.destination.droppableId) {
+    const souceId = result.source.droppableId;
+    const destinationId = result.destination.droppableId;
+    if (souceId != destinationId) {
       const [removed] = lettersArray.splice(result.source.index, 1)
       wordArray.splice(result.destination.index, 0, removed)
       updateLetters(lettersArray)
       updateWord(wordArray)
+    } 
+    if (souceId == destinationId) {
+      if (souceId == "letters"){
+        const [removed] = lettersArray.splice(result.source.index, 1)
+        lettersArray.splice(result.destination.index, 0, removed)
+        updateLetters(lettersArray)
+      }
+      if (souceId == "word"){
+        const [removed] = wordArray.splice(result.source.index, 1)
+        wordArray.splice(result.destination.index, 0, removed)
+        updateWord(wordArray)
+      }
     }
   }
 
@@ -57,19 +71,36 @@ function App() {
     setCount(count+1)
   }
 
-  return repos.id ? (
+  function checkSpelling(){
+    var wordString: string = ""
+    word.forEach((item : any, index : number) => (
+      wordString += item.content
+    ))
+    const postSpelling = async () => {
+      const url = "https://api.beta.slangapp.com/recruitment/spelling"
+      const resp = await fetch(url,{
+        method: "POST",
+        body: JSON.stringify({"id": spellingItem.id, "answer": wordString}),
+        headers: {"Content-type": "application/json; charset=UTF-8"}
+      })
+      let res = await resp.json()
+      console.log(res)
+    }
+    postSpelling()
+  }
+
+  return spellingItem.id ? (
     <ThemeProvider theme={theme}>
         <GlobalStyle />
         <div className="main">
         <h1>Spelling Game</h1>
           <DragDropContext onDragEnd={onDragEnd}>
             <WordBox
-              audioUrl={repos["audio-url"]}
-              word={word}
+              audioUrl={spellingItem["audio-url"]}
               notice={notice}/>
-            <Letters letters={letters}/>
+            <Letters/>
             <ButtonCss>
-              <button>CHECK</button>
+              <button onClick={checkSpelling}>CHECK</button>
             </ButtonCss>
             <LinkIcon
             side="right"

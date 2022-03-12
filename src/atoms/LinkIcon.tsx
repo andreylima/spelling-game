@@ -1,22 +1,26 @@
+import React from 'react';
 import { LinkIconCss } from '../styles/atoms/LinkIcon-css';
 
-interface LinkData {
+type WithChildren<T = {}> = 
+  T & { children?: React.ReactNode };
+
+  type LinkData = WithChildren<{
     side : string
     onClick: any
-}
+  }>
 
-export const  LinkIcon: React.FC<LinkData> = (props) => {
+export const LinkIcon = ({side, onClick, children } : LinkData) => {
 
     return (
         <LinkIconCss>
-        {props.side == "left" && 
-            <div className="jump" onClick={props.onClick}>
-              {props.children}<span>jump</span> 
+        {side == "left" && 
+            <div className="jump" onClick={onClick}>
+              {children}<span>jump</span> 
             </div>
         }
-        {props.side == "right" && 
-            <div className="jump" onClick={props.onClick}> 
-              <span>jump</span>{props.children}
+        {side == "right" && 
+            <div className="jump" onClick={onClick}> 
+              <span>jump</span>{children}
             </div>
         }
         </LinkIconCss>

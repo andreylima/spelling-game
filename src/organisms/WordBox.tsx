@@ -2,6 +2,8 @@ import { WordCss } from "../styles/molecules/Word-css";
 import { AudioButton } from "../atoms/PlayButton"
 import { Word } from "../molecules/Word"
 import { WordBoxCss } from '../styles/organisms/WordBox-css';
+import { useRecoilValue } from "recoil";
+import { wordState } from "../recoilAtom/wordState";
 
 interface WordBoxInterface {
     audioUrl? : string
@@ -9,7 +11,8 @@ interface WordBoxInterface {
     notice : string
 }
 
-export function WordBox(props? : WordBoxInterface) {
+export const WordBox = (props? : WordBoxInterface) => {
+    const word = useRecoilValue(wordState)
     return (
             <WordBoxCss>
                 {props?.audioUrl && 
@@ -19,7 +22,7 @@ export function WordBox(props? : WordBoxInterface) {
                         <span className="notice">{props.notice}</span>
                     </div>
                     <div className="wordRow">
-                        <Word word={props.word}/>
+                        <Word/>
                     </div>
                 </div>
                 }

@@ -6,8 +6,8 @@ interface audioData {
     url : string
 }
 
-export const AudioButton: React.FC<audioData> = (props) => {
-    const [play, { stop, duration }] = useSound(props.url);
+export const AudioButton = (props : audioData) => {
+    const [play, { duration }] = useSound(props.url);
     function animate(event : any){
         event.target.classList.add("playing")
         setTimeout(() => {

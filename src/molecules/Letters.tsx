@@ -1,17 +1,16 @@
 import { Draggable, Droppable } from 'react-beautiful-dnd';
+import { useRecoilValue } from 'recoil';
+import { letterState } from '../recoilAtom/letters';
 import { LettersCss } from '../styles/molecules/Letters-css';
 
-interface LettersData {
-    letters : any
-}
-
-export function Letters(props : LettersData) {
+export const Letters = () => {
+  const letters = useRecoilValue(letterState)
     return (
       <LettersCss>
         <Droppable droppableId="letters" direction='horizontal'>
         {(provided, snapshot) => (
             <ul className={`headerPlaceholder ${snapshot.isDraggingOver ? 'isDraggingOver' : 'white'}`} {...provided.droppableProps} ref={provided.innerRef}>
-              {props.letters.map((letter : any, index : number) => (
+              {letters.map((letter : any, index : number) => (
                 <Draggable draggableId={letter.id} index={index} key={letter.id}>
                   {(provided,snapshot) => { 
                     return (
