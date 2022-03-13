@@ -11,4 +11,10 @@ export const spellingItemState = atom({
     'letter-pool': Array<string> 
   }
 
+  export const isLoadingState = atom({
+    key: "isLoading",
+    default: false
+  })
+
+
   

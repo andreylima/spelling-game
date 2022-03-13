@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
 import { useRecoilState } from "recoil"
-import { spellingItem, spellingItemState } from "./recoilAtom/spellItem"
+import { isLoadingState, spellingItem, spellingItemState } from "./recoilAtom/spellItem"
 import { DragDropContext } from "react-beautiful-dnd"
 import { ThemeProvider } from 'styled-components'
 import GlobalStyle from './styles/global'
@@ -15,6 +15,7 @@ import { wordState } from "./recoilAtom/wordState"
 import { countState, jumpedState, rightState, wrongState } from "./recoilAtom/ranking"
 import { AnswerStatusState, noticeState, originalLengthState, wrongLettersState } from "./recoilAtom/answerValidation"
 import useApi from "./Service/Service"
+import { concatLettersFromItem, getWrongLetters } from "./utils/manupulateArray"
 
 
 export interface letter {
@@ -34,6 +35,7 @@ function App() {
   const [jumpedCount, setjumpedCount] = useRecoilState(jumpedState)
   const [originalWordLength, setOriginalWordLength] = useRecoilState(originalLengthState)
   const [notice, setNotice ] = useRecoilState(noticeState)
+  const [isLoading, setisLoading ] = useRecoilState(isLoadingState)
 
   const { getSpellItem, postSpelling } = useApi()
 
@@ -45,6 +47,7 @@ function App() {
         setNotice("Click above to play")
         setAnswerStatus("notSent")
         updateWord([])
+        setisLoading(false)
       })
 
   }
@@ -52,9 +55,7 @@ function App() {
   useEffect(() => {
     loadWord()
   }, [count])
-
   
-
   function onDragEnd(result : any) {
     if (!result.destination) return
     const lettersArray = Array.from(letters)
@@ -62,10 +63,17 @@ function App() {
     const souceId = result.source.droppableId;
     const destinationId = result.destination.droppableId;
     if (souceId != destinationId) {
-      const [removed] = lettersArray.splice(result.source.index, 1)
-      wordArray.splice(result.destination.index, 0, removed)
-      updateLetters(lettersArray)
-      updateWord(wordArray)
+      if(souceId == "letters") {
+        const [removed] = lettersArray.splice(result.source.index, 1)
+        wordArray.splice(result.destination.index, 0, removed)
+        updateLetters(lettersArray)
+        updateWord(wordArray)
+      } else {
+        const [removed] = wordArray.splice(result.source.index, 1)
+        lettersArray.splice(result.destination.index, 0, removed)
+        updateLetters(lettersArray)
+        updateWord(wordArray)
+      }
     } 
     if (souceId == destinationId) {
       if (souceId == "letters"){
@@ -82,8 +90,10 @@ function App() {
   }
 
   function jump(){
-    setCount(count+1)
-    updateWord([])
+    setisLoading(true)
+    setTimeout(() => {
+      setCount(count+1)
+    }, 2000);
     setjumpedCount(jumpedCount+1)
   }
 
@@ -92,11 +102,7 @@ function App() {
       setAnswerStatus("less")
       return
     }
-    var wordString: string = ""
-    word.forEach((item : any, index : number) => (
-      wordString += item.content
-    ))
-    
+    var wordString = concatLettersFromItem(word)
     postSpelling(spellingItem.id, wordString).then((res : any) => {
       const correctAnswer = res["correct-answer"];
       if(res.correct) {
@@ -104,18 +110,16 @@ function App() {
         setAnswerStatus(res.correct ? "true" : "false")
         setNotice("Congratulations! Wait for the next word.")
         setTimeout(() => {
+          setisLoading(true)
+        }, 1000);
+        setTimeout(() => {
           setCount(count+1)
-        }, 2000);
+        }, 3000);
       } else {
         setWrongCount(wrongCount+1)
         setAnswerStatus(res.correct ? "true" : "false")
         setNotice("Oops! Try again.")
-        var wrongLettersArray = Array<string>()
-        for (let index = 0; index < correctAnswer.length; index++) {
-          if(correctAnswer[index] != word[index]['content']){
-            wrongLettersArray.push(word[index]['id'])
-          } 
-        }
+        var wrongLettersArray = getWrongLetters(correctAnswer, word)
         setWrongLettersState(wrongLettersArray)
         setTimeout(() => {
           setWrongLettersState([])
@@ -128,6 +132,7 @@ function App() {
 
   return spellingItem.id ? (
     <ThemeProvider theme={theme}>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css"></link>
         <GlobalStyle />
         <div className="main">
         <h1>Spelling Game</h1>
@@ -155,6 +160,10 @@ function App() {
         <WordBox
         notice={notice}
         />
+        
+        <ButtonCss>
+          <button>LOADING</button>
+        </ButtonCss>
       </div>
     </ThemeProvider>
   );

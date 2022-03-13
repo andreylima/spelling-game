@@ -5,7 +5,8 @@ import { WordBoxCss } from '../styles/organisms/WordBox-css';
 import { useRecoilValue } from "recoil";
 import { AnswerStatusState } from "../recoilAtom/answerValidation";
 import RightIcon from '../assets/svg/RightIcon.svg'
-import WrongIcon from '../assets/svg/WrongIcon.svg'
+import { isLoadingState, spellingItemState } from "../recoilAtom/spellItem";
+import {Animated} from "react-animated-css";
 
 interface WordBoxInterface {
     audioUrl? : string
@@ -14,19 +15,25 @@ interface WordBoxInterface {
 
 export const WordBox = (props? : WordBoxInterface) => {
     const AnswerStatus = useRecoilValue(AnswerStatusState)
-
+    const isLoading = useRecoilValue(isLoadingState)
+    const spellingItem = useRecoilValue(spellingItemState)
     return (
             <WordBoxCss>
                 {props?.audioUrl && 
                 <div className="audioBox">
                     <div className="audioRow">
-                        {AnswerStatus == "true" && 
-                            <img src={RightIcon} alt="Right Answer"/>
-                        }
-                        {AnswerStatus != "true" && 
-                        <AudioButton url={props.audioUrl}/>
-                        }
+                        <div className="iconPlace">
+                        <Animated animationIn="fadeIn" animationOut="fadeOut" animationInDuration={400} animationOutDuration={400} isVisible={AnswerStatus == "true"}>
+                            <img src={RightIcon} alt="Right Answer" />
+                        </Animated>
+                        
+                        <Animated animationIn="fadeIn" animationOut="fadeOut" animationInDuration={400} animationOutDuration={400} isVisible={AnswerStatus != "true"}>
+                        <AudioButton url={props.audioUrl} />
+                        </Animated>
+                        </div>
+                        
                         <span className="notice">{props.notice}</span>
+                    <div className={`progressBar ${isLoading ? "isLoading" : ""}`}></div>
                     </div>
                     <div className="wordRow">
                         <Word/>
@@ -35,8 +42,10 @@ export const WordBox = (props? : WordBoxInterface) => {
                 }
                 {!props?.audioUrl && 
                     <div className="audioBox">
-                        <div className="audioRow">
-                            <img src={'/img/loader.gif'} alt="Loading" className="loading"/>
+                            <div className="audioRow">
+                            <div className="iconPlace">
+                                <img src={'/img/loader.gif'} alt="Loading" className="loading"/>
+                            </div>
                             <span className="notice">{props?.notice}</span>
                         </div>
                         <div className="wordRow">
