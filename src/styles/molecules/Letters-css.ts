@@ -17,6 +17,7 @@ ul
       margin-top: 20px;
       margin-bottom: 20px;
       flex-wrap: wrap;
+      overflow: hidden;
     }
     &.isDraggingOver 
         {

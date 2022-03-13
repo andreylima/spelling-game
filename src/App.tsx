@@ -16,14 +16,16 @@ import useApi from "./Service/Service"
 import { concatLettersFromItem, getWrongLetters } from "./utils/manipulateArray"
 import { Ranking } from "./organisms/Ranking"
 import { LettersCss } from "./styles/molecules/Letters-css"
-
-
-export interface letter {
-  id : string
-  content : string
+import DatalayerService from './utils/datalyerService'
+declare global {
+  interface Window {
+    dataLayer:any;
+  }
 }
+window.dataLayer = []
 
 function App() {
+  const { sendCustomEvent } = DatalayerService()
   const [spellingItem, setspellingItem] = useRecoilState(spellingItemState)
   const [letters, updateLetters] = useRecoilState(letterState)
   const [word, updateWord] = useRecoilState(wordState)
@@ -93,6 +95,7 @@ function App() {
   }
 
   function jump(){
+    sendCustomEvent("Home", "Answer Status", "jumped")
     setisLoading(true)
     setTimeout(() => {
       setCount(count+1)
@@ -101,6 +104,7 @@ function App() {
   }
 
   function setCorrect(res : any) {
+    sendCustomEvent("Home", "Answer Status", "Correct")
     setRightCount(rightCount+1)
     setAnswerStatus(res.correct ? "true" : "false")
     setNotice("Congratulations! Wait for the next word.")
@@ -113,6 +117,7 @@ function App() {
   }
 
   function setWrong(res : any, correctAnswer : string) {
+    sendCustomEvent("Home", "Answer Status", "Wrong")
     setWrongCount(wrongCount+1)
     setAnswerStatus(res.correct ? "true" : "false")
     setNotice("Oops! Try again.")
@@ -126,6 +131,7 @@ function App() {
   function checkSpelling(){
     if (word.length < originalWordLength){
       setAnswerStatus("less")
+      sendCustomEvent("Home", "Answer Status", "Less")
       return
     }
     var wordString = concatLettersFromItem(word)
@@ -155,7 +161,7 @@ function App() {
               notice={notice}/>
             <Letters/>
             <ButtonCss>
-              <button onClick={checkSpelling}>CHECK</button>
+              <button onClick={() => {checkSpelling(); sendCustomEvent("Home", "Check spelling", "CHECK")}} >CHECK</button>
             </ButtonCss>
             <LinkIcon
             side="right"

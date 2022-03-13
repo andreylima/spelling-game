@@ -16,7 +16,6 @@ export const WordBox = (props : WordBoxInterface) => {
     const AnswerStatus = useRecoilValue(AnswerStatusState)
     const isLoading = useRecoilValue(isLoadingState)
     const audio = useRecoilValue(audioState) 
-    console.log(audio)
     return (
             <WordBoxCss>
                 {audio && 
