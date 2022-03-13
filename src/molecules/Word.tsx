@@ -1,7 +1,7 @@
 import { Draggable, Droppable } from 'react-beautiful-dnd';
 import { useRecoilValue } from 'recoil';
 import { wrongLettersState } from '../recoilAtom/answerValidation';
-import { wordState } from '../recoilAtom/wordState';
+import { wordState } from '../recoilAtom/spellItem';
 import { WordCss } from '../styles/molecules/Word-css';
 
 export const Word = () => {

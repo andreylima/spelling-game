@@ -5,21 +5,21 @@ import { WordBoxCss } from '../styles/organisms/WordBox-css';
 import { useRecoilValue } from "recoil";
 import { AnswerStatusState } from "../recoilAtom/answerValidation";
 import RightIcon from '../assets/svg/RightIcon.svg'
-import { isLoadingState, spellingItemState } from "../recoilAtom/spellItem";
+import { audioState, isLoadingState } from "../recoilAtom/spellItem";
 import {Animated} from "react-animated-css";
 
 interface WordBoxInterface {
-    audioUrl? : string
     notice : string
 }
 
-export const WordBox = (props? : WordBoxInterface) => {
+export const WordBox = (props : WordBoxInterface) => {
     const AnswerStatus = useRecoilValue(AnswerStatusState)
     const isLoading = useRecoilValue(isLoadingState)
-    const spellingItem = useRecoilValue(spellingItemState)
+    const audio = useRecoilValue(audioState) 
+    console.log(audio)
     return (
             <WordBoxCss>
-                {props?.audioUrl && 
+                {audio && 
                 <div className="audioBox">
                     <div className="audioRow">
                         <div className="iconPlace">
@@ -28,7 +28,7 @@ export const WordBox = (props? : WordBoxInterface) => {
                         </Animated>
                         
                         <Animated animationIn="fadeIn" animationOut="fadeOut" animationInDuration={400} animationOutDuration={400} isVisible={AnswerStatus != "true"}>
-                        <AudioButton url={props.audioUrl} />
+                        <AudioButton url={audio} />
                         </Animated>
                         </div>
                         
@@ -40,7 +40,7 @@ export const WordBox = (props? : WordBoxInterface) => {
                     </div>
                 </div>
                 }
-                {!props?.audioUrl && 
+                {!audio && 
                     <div className="audioBox">
                             <div className="audioRow">
                             <div className="iconPlace">

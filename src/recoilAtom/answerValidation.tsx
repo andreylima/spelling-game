@@ -5,11 +5,6 @@ export const AnswerStatusState = atom({
     default: "notSent"
   })
 
-  export const remainingLettersState = atom({
-    key: "remainingLetters",
-    default: false
-  })
-
   export const wrongLettersState = atom({
     key: "wrongLetters",
     default: [] as Array<string>

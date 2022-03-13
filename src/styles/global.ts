@@ -57,8 +57,11 @@ ol, ul {
 }
 h1 
 {
-  font-size: 64px;
+  font-size: ${props => props.theme.SlangTokens.fontSize.XXXL.value}px;
   text-align: center;
   margin-bottom: 33px;
+  @media (max-width: 700px) {
+    font-size: ${props => props.theme.SlangTokens.fontSize.LG.value}px;
+  }
 }
 `

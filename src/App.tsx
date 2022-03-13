@@ -1,6 +1,6 @@
 import { useEffect } from "react"
 import { useRecoilState } from "recoil"
-import { isLoadingState, spellingItem, spellingItemState } from "./recoilAtom/spellItem"
+import { audioState, isLoadingState, letterState, spellingItem, spellingItemState, wordState } from "./recoilAtom/spellItem"
 import { DragDropContext } from "react-beautiful-dnd"
 import { ThemeProvider } from 'styled-components'
 import GlobalStyle from './styles/global'
@@ -10,12 +10,12 @@ import { WordBox } from "./organisms/WordBox"
 import { ButtonCss } from "./styles/atoms/Button-css"
 import { LinkIcon } from "./atoms/LinkIcon"
 import JumpIcon from './assets/svg/JumpIcon.svg'
-import { letterState } from "./recoilAtom/letters"
-import { wordState } from "./recoilAtom/wordState"
-import { countState, jumpedState, rightState, wrongState } from "./recoilAtom/ranking"
+import { countState, jumpedState, rightState, wrongState } from "./recoilAtom/counting"
 import { AnswerStatusState, noticeState, originalLengthState, wrongLettersState } from "./recoilAtom/answerValidation"
 import useApi from "./Service/Service"
-import { concatLettersFromItem, getWrongLetters } from "./utils/manupulateArray"
+import { concatLettersFromItem, getWrongLetters } from "./utils/manipulateArray"
+import { Ranking } from "./organisms/Ranking"
+import { LettersCss } from "./styles/molecules/Letters-css"
 
 
 export interface letter {
@@ -27,6 +27,7 @@ function App() {
   const [spellingItem, setspellingItem] = useRecoilState(spellingItemState)
   const [letters, updateLetters] = useRecoilState(letterState)
   const [word, updateWord] = useRecoilState(wordState)
+  const [audio, setAudio] = useRecoilState(audioState)
   const [AnswerStatus, setAnswerStatus] = useRecoilState(AnswerStatusState)
   const [wrongLetters, setWrongLettersState ] = useRecoilState(wrongLettersState)
   const [count, setCount] = useRecoilState(countState)
@@ -44,6 +45,7 @@ function App() {
         setspellingItem(body)
         updateLetters(body["letter-pool"])
         setOriginalWordLength(body["letter-pool"].length)
+        setAudio(body["audio-url"])
         setNotice("Click above to play")
         setAnswerStatus("notSent")
         updateWord([])
@@ -52,10 +54,11 @@ function App() {
 
   }
 
+  
   useEffect(() => {
     loadWord()
   }, [count])
-  
+
   function onDragEnd(result : any) {
     if (!result.destination) return
     const lettersArray = Array.from(letters)
@@ -97,6 +100,29 @@ function App() {
     setjumpedCount(jumpedCount+1)
   }
 
+  function setCorrect(res : any) {
+    setRightCount(rightCount+1)
+    setAnswerStatus(res.correct ? "true" : "false")
+    setNotice("Congratulations! Wait for the next word.")
+    setTimeout(() => {
+      setisLoading(true)
+    }, 1000);
+    setTimeout(() => {
+      setCount(count+1)
+    }, 3000);
+  }
+
+  function setWrong(res : any, correctAnswer : string) {
+    setWrongCount(wrongCount+1)
+    setAnswerStatus(res.correct ? "true" : "false")
+    setNotice("Oops! Try again.")
+    var wrongLettersArray = getWrongLetters(correctAnswer, word)
+    setWrongLettersState(wrongLettersArray)
+    setTimeout(() => {
+      setWrongLettersState([])
+    }, 2000);
+  }
+
   function checkSpelling(){
     if (word.length < originalWordLength){
       setAnswerStatus("less")
@@ -105,27 +131,14 @@ function App() {
     var wordString = concatLettersFromItem(word)
     postSpelling(spellingItem.id, wordString).then((res : any) => {
       const correctAnswer = res["correct-answer"];
+
       if(res.correct) {
-        setRightCount(rightCount+1)
-        setAnswerStatus(res.correct ? "true" : "false")
-        setNotice("Congratulations! Wait for the next word.")
-        setTimeout(() => {
-          setisLoading(true)
-        }, 1000);
-        setTimeout(() => {
-          setCount(count+1)
-        }, 3000);
+        setCorrect(res)
       } else {
-        setWrongCount(wrongCount+1)
-        setAnswerStatus(res.correct ? "true" : "false")
-        setNotice("Oops! Try again.")
-        var wrongLettersArray = getWrongLetters(correctAnswer, word)
-        setWrongLettersState(wrongLettersArray)
-        setTimeout(() => {
-          setWrongLettersState([])
-        }, 2000);
+        setWrong(res, correctAnswer)
       }
     })
+
 
 
   }
@@ -134,11 +147,11 @@ function App() {
     <ThemeProvider theme={theme}>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css"></link>
         <GlobalStyle />
+        <Ranking/>
         <div className="main">
         <h1>Spelling Game</h1>
           <DragDropContext onDragEnd={onDragEnd}>
             <WordBox
-              audioUrl={spellingItem["audio-url"]}
               notice={notice}/>
             <Letters/>
             <ButtonCss>
@@ -160,7 +173,11 @@ function App() {
         <WordBox
         notice={notice}
         />
-        
+        <LettersCss>
+          <div>
+            <ul></ul>
+          </div>
+        </LettersCss>
         <ButtonCss>
           <button>LOADING</button>
         </ButtonCss>

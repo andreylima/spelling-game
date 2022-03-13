@@ -1,13 +1,27 @@
 import styled from 'styled-components'
 
 export const LettersCss = styled.div`
+max-width: 100%;
 ul 
 {
     display: flex;
     justify-content: center;
-    margin-top: 35px;
+    margin-top: 20px;
     margin-bottom: 20px;
     min-height: 75px;
+    @media (max-width: 700px) {
+      width: 100vw;
+      max-width: 90%;
+      min-height: 40px;
+      margin: auto;
+      margin-top: 20px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+    &.isDraggingOver 
+        {
+            background-color: ${props => props.theme.SlangTokens.secondary.lightBlue.value};
+        }
     li 
     {
         width: 75px;
@@ -22,7 +36,13 @@ ul
         display: flex;
         align-items: center;
         justify-content: center;
-
+        @media (max-width: 700px) {
+            width: 40px;
+            height: 40px;
+            font-size: ${props => props.theme.SlangTokens.fontSize.SM.value}px;
+            margin-bottom: 5px;
+            margin-top: 5px;
+        }
         &.shake {
             border: dotted 2px ${props => props.theme.SlangTokens.secondary.redWarning.value};
             animation: shake 0.82s cubic-bezier(.36,.07,.19,.97) both;

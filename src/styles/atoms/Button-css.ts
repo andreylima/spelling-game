@@ -24,5 +24,9 @@ button
     {
         background-color: ${props => props.theme.SlangTokens.secondary.darkBlue.value};
     }
+    @media (max-width: 700px) {
+          height: 40px;
+          font-size: ${props => props.theme.SlangTokens.fontSize.MD.value}px;
+    }
 }
 `

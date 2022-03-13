@@ -17,4 +17,18 @@ export const spellingItemState = atom({
   })
 
 
+  export const wordState = atom({
+    key: "word",
+    default: [] as Array<any>
+  })
   
+  export const letterState = atom({
+    key: "letters",
+    default: [] as Array<any>
+  })
+
+  export const audioState = atom({
+    key: "audio",
+    default: ""
+  })
+
