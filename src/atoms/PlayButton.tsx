@@ -2,6 +2,7 @@ import useSound from 'use-sound';
 import { PlayButtonCss } from '../styles/atoms/PlayButton-css';
 import PlayIcon from '../assets/svg/PlayIcon.svg'
 import DatalayerService from '../utils/datalyerService'
+
 interface audioData {
     url : string
 }
@@ -18,7 +19,7 @@ export const AudioButton = (props : audioData) => {
     return (
         <PlayButtonCss>
             <div onClick={(event) => {play(); animate(event); sendCustomEvent("Home", "Play audio", "Sound Icon")}}>
-                <img src={PlayIcon}/>
+                <img src={PlayIcon} alt="Play Icon"/>
             </div>
         </PlayButtonCss>
     )

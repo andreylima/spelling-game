@@ -38,11 +38,13 @@ Specifications:
     - index/follow
     - canonical
     - Sitemap
+    - robots
     - Responsive
     - Deploy live - codesandbox
     - Lighhouse 
 
 UX:
+FIGMA
 https://www.figma.com/file/YXQXQlv2vTKNqbAHzxCLed/SPELLING-GAME?node-id=0%3A1
 
 

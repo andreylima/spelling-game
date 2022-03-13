@@ -24,19 +24,19 @@ export const Letters = () => {
         {letters &&
           <Droppable droppableId="letters" direction='horizontal'>
           {(provided, snapshot) => (
-            <ul className={`headerPlaceholder ${snapshot.isDraggingOver ? 'isDraggingOver' : 'white'}`} {...provided.droppableProps} ref={provided.innerRef}>
+            <div className={`headerPlaceholder ${snapshot.isDraggingOver ? 'isDraggingOver' : 'white'}`} {...provided.droppableProps} ref={provided.innerRef}>
                 {letters.map((letter : any, index : number) => (
                   <Draggable draggableId={letter.id} index={index} key={letter.id}>
                     {(provided,snapshot) => { 
                       return (
-                        <li {...provided.draggableProps} {...provided.dragHandleProps} ref={provided.innerRef} className={`${remainingLetters} ${snapshot.isDragging ? 'isDragging' : 'white'}`}>
+                        <div {...provided.draggableProps} {...provided.dragHandleProps} ref={provided.innerRef} className={`letter ${remainingLetters} ${snapshot.isDragging ? 'isDragging' : 'white'}`}>
                           {letter.content}
-                      </li>
+                      </div>
                       )}}
                   </Draggable>
                 ))}
                 {provided.placeholder}
-              </ul>
+              </div>
             )}
           </Droppable>
         }

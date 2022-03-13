@@ -20,6 +20,7 @@ div
     {
         vertical-align: middle;
         height: 20px;
+        width: 20px;
     }
 }
 `

@@ -2,7 +2,7 @@ import styled from 'styled-components'
 
 export const LettersCss = styled.div`
 max-width: 100%;
-ul 
+.headerPlaceholder 
 {
     display: flex;
     justify-content: center;
@@ -23,7 +23,7 @@ ul
         {
             background-color: ${props => props.theme.SlangTokens.secondary.lightBlue.value};
         }
-    li 
+    .letter 
     {
         width: 75px;
         height: 75px;

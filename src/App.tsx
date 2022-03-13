@@ -17,6 +17,8 @@ import { concatLettersFromItem, getWrongLetters } from "./utils/manipulateArray"
 import { Ranking } from "./organisms/Ranking"
 import { LettersCss } from "./styles/molecules/Letters-css"
 import DatalayerService from './utils/datalyerService'
+import WebSiteSnippet from "./utils/RichSnippets/WebSiteSnippet"
+import OrganizationSnippet from "./utils/RichSnippets/OrganizationSnippets"
 declare global {
   interface Window {
     dataLayer:any;
@@ -166,7 +168,7 @@ function App() {
             <LinkIcon
             side="right"
             onClick={jump}>
-              <img src={JumpIcon}/>
+              <img src={JumpIcon} alt="Jump Word"/>
             </LinkIcon>
           </DragDropContext>
         </div>
@@ -188,6 +190,8 @@ function App() {
           <button>LOADING</button>
         </ButtonCss>
       </div>
+      <OrganizationSnippet/>
+      <WebSiteSnippet />
     </ThemeProvider>
   );
 }

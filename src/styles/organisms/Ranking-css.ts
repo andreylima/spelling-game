@@ -28,6 +28,7 @@ export const RankingCss = styled.div`
             img 
             {
                 width: 30px;
+                height: 30px;
                 margin: auto;
             }
         }
