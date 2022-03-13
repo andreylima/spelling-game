@@ -44,11 +44,15 @@
         "value": "#055ea8",
         "type": "color"
       },
-      "color_2": {
+      "redWarning": {
+        "value": "#ff6565",
+        "type": "color"
+      },
+      "lightGray": {
         "value": "#e4e6e8",
         "type": "color"
       },
-      "color_3": {
+      "LighterGray": {
         "value": "#f9fafb",
         "type": "color"
       }

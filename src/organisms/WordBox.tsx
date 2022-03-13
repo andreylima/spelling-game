@@ -3,22 +3,29 @@ import { AudioButton } from "../atoms/PlayButton"
 import { Word } from "../molecules/Word"
 import { WordBoxCss } from '../styles/organisms/WordBox-css';
 import { useRecoilValue } from "recoil";
-import { wordState } from "../recoilAtom/wordState";
+import { AnswerStatusState } from "../recoilAtom/answerValidation";
+import RightIcon from '../assets/svg/RightIcon.svg'
+import WrongIcon from '../assets/svg/WrongIcon.svg'
 
 interface WordBoxInterface {
     audioUrl? : string
-    word? : any
     notice : string
 }
 
 export const WordBox = (props? : WordBoxInterface) => {
-    const word = useRecoilValue(wordState)
+    const AnswerStatus = useRecoilValue(AnswerStatusState)
+
     return (
             <WordBoxCss>
                 {props?.audioUrl && 
                 <div className="audioBox">
                     <div className="audioRow">
+                        {AnswerStatus == "true" && 
+                            <img src={RightIcon} alt="Right Answer"/>
+                        }
+                        {AnswerStatus != "true" && 
                         <AudioButton url={props.audioUrl}/>
+                        }
                         <span className="notice">{props.notice}</span>
                     </div>
                     <div className="wordRow">
