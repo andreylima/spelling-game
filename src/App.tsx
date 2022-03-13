@@ -50,7 +50,7 @@ function App() {
         updateLetters(body["letter-pool"])
         setOriginalWordLength(body["letter-pool"].length)
         setAudio(body["audio-url"])
-        setNotice("Click above to play")
+        setNotice("Click above to listen")
         setAnswerStatus("notSent")
         updateWord([])
         setisLoading(false)

@@ -22,6 +22,9 @@ export const Word = () => {
                     )}}
                 </Draggable>
               ))}
+              {word.length == 0 &&
+                <p className="tip">Drag the letters here to write the word you heard</p>
+              }
             </ul>
           )}
         </Droppable>

@@ -45,6 +45,7 @@ position: relative;
     {
         font-size: 12px;
         margin-top: 12px;
+        color: ${props => props.theme.SlangTokens.brand.PRIMARY.color_1.value};
         @media (max-width: 700px) {
             margin-top: 5px;
         }
@@ -75,6 +76,24 @@ position: relative;
     height: 119px;
     text-align: center;
     width: 100%;
+    position: relative;
+    .tip 
+    {
+        position: absolute;
+        bottom: 30px;
+        text-align: center;
+        width: 100%;
+        left: 0;
+        color: ${props => props.theme.SlangTokens.brand.PRIMARY.color_1.value};
+        font-size: ${props => props.theme.SlangTokens.fontSize.XS.value}px;
+        @media (max-width: 700px) {
+            bottom: 10px;
+            padding-left: 10%;
+            padding-right: 10%;
+            margin: auto;
+            font-size: ${props => props.theme.SlangTokens.fontSize.XXS.value}px;
+        }
+    }
     > div {
         height: 100%;
     }
