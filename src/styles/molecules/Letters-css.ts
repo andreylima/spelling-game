@@ -2,7 +2,7 @@ import styled from 'styled-components'
 
 export const LettersCss = styled.div`
 max-width: 100%;
-.headerPlaceholder 
+.letterList 
 {
     display: flex;
     justify-content: center;

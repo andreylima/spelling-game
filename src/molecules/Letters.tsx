@@ -24,7 +24,7 @@ export const Letters = () => {
         {letters &&
           <Droppable droppableId="letters" direction='horizontal'>
           {(provided, snapshot) => (
-            <div className={`headerPlaceholder ${snapshot.isDraggingOver ? 'isDraggingOver' : 'white'}`} {...provided.droppableProps} ref={provided.innerRef}>
+            <div className={`letterList ${snapshot.isDraggingOver ? 'isDraggingOver' : 'white'}`} {...provided.droppableProps} ref={provided.innerRef}>
                 {letters.map((letter : any, index : number) => (
                   <Draggable draggableId={letter.id} index={index} key={letter.id}>
                     {(provided,snapshot) => { 

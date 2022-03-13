@@ -182,8 +182,7 @@ function App() {
         notice={notice}
         />
         <LettersCss>
-          <div>
-            <ul></ul>
+          <div className="letterList">
           </div>
         </LettersCss>
         <ButtonCss>
