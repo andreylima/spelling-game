@@ -48,6 +48,9 @@ FIGMA
 https://www.figma.com/file/YXQXQlv2vTKNqbAHzxCLed/SPELLING-GAME?node-id=0%3A1
 
 
+DEMO:
+https://codesandbox.io/s/spelling-game-ffirk0 
+
 Technologies:
 - React 
 - Typescript
